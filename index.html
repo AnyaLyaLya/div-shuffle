@@ -49,14 +49,14 @@
         divs.unshift(div);
       };
 
-      // Функція повернення div на свою вихідну позицію
-      const returnDivToOriginalPosition = (div) => {
+      // Функція повернення div на попередню позицію
+      const returnDivToPreviousPosition = (div) => {
         const index = divs.indexOf(div);
-        const originalIndex = div.getAttribute('data-original-index');
+        const previousIndex = div.getAttribute('data-previous-index');
         divs.splice(index, 1);
-        const referenceNode = divs[originalIndex] || null;
+        const referenceNode = divs[previousIndex] || null;
         body.insertBefore(div, referenceNode);
-        divs.splice(originalIndex, 0, div);
+        divs.splice(previousIndex, 0, div);
       };
 
       // Обробник кліку на div елементі
@@ -65,9 +65,10 @@
         const index = divs.indexOf(div);
 
         if (index === 0) {
-          returnDivToOriginalPosition(div);
+          returnDivToPreviousPosition(div);
         } else if (index > 0) {
           moveDivToFirstPosition(div);
+          div.setAttribute('data-previous-index', index);
         }
       };
 
